@@ -1,0 +1,35 @@
+{
+   "Version": "2012-10-17",
+   "Statement": [{
+      "Effect": "Allow",
+      "Action": "ec2:*",
+      "Resource": "arn:aws:ec2:eu-west-1:account:subnet/*",
+        "Condition": {
+         "StringEquals": {
+            "ec2:Vpc": "arn:aws:ec2:eu-west-1:account:vpc/vpc-20051983"
+            }
+      }
+   },
+   {
+      "Effect": "Allow",
+      "Action": "ec2:*",
+      "Resource": "arn:aws:ec2:eu-west-1::image/ami-*",
+      "Condition": {
+         "StringEquals": {
+            "ec2:ResourceTag/department": "fundapps-dev"
+            }
+      }
+   },
+   {
+      "Effect": "Allow",
+      "Action": "ec2:*",
+      "Resource": [
+         "arn:aws:ec2:eu-west-1:account:instance/*",
+         "arn:aws:ec2:eu-west-1:account:volume/*",
+         "arn:aws:ec2:eu-west-1:account:network-interface/*",
+         "arn:aws:ec2:eu-west-1:account:key-pair/*",
+         "arn:aws:ec2:eu-west-1:account:security-group/*"
+         ]
+      }
+   ]
+}
