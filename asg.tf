@@ -22,8 +22,9 @@ resource "aws_autoscaling_group" "fundapps" {
   health_check_type         = "ELB"
   desired_capacity          = 4
   force_delete              = true
-  launch_configuration      = "${aws_launch_configuration.fundapps.name}"
-  vpc_zone_identifier       = ["${aws_subnet.public1.id}", "${aws_subnet.public2.id}"]
+  load_balancers = ["${aws_elb.fundapps.name}"]
+  launch_configuration      = "${aws_launch_configuration.fundapps_lc.name}"
+  vpc_zone_identifier       = ["${aws_subnet.public_subnet.id}", "${aws_subnet.public_subnet1.id}"]
 
   initial_lifecycle_hook {
     name                 = "fundapps"

@@ -27,13 +27,18 @@ resource "aws_route" "public_internet_gateway" {
   gateway_id             = "${aws_internet_gateway.fundapps.id}"
 }
 
-resource "aws_subnet" "app" {
+resource "aws_subnet" "public_subnet" {
   vpc_id            = "${aws_vpc.fundapps.id}"
   cidr_block        = "${var.public_subnet[count.index]}"
   availability_zone = "${element(var.azs, count.index)}"
   count             = "${length(var.public_subnet)}"
 }
-
+resource "aws_subnet" "public_subnet1" {
+  vpc_id            = "${aws_vpc.fundapps.id}"
+  cidr_block        = "${var.public_subnet1[count.index]}"
+  availability_zone = "${element(var.azs, count.index)}"
+  count             = "${length(var.public_subnet1)}"
+}
 resource "aws_subnet" "private" {
   vpc_id            = "${aws_vpc.fundapps.id}"
   cidr_block        = "${var.private_subnet[count.index]}"
@@ -50,11 +55,8 @@ resource "aws_subnet" "public" {
 }
 
 resource "aws_route_table_association" "public" {
-  count          = "${length(var.public_subnets)}"
+  count          = "${length(var.public_subnet)}"
   subnet_id      = "${element(aws_subnet.public.*.id, count.index)}"
   route_table_id = "${aws_route_table.public.id}"
 }
 
-output "app-subnets" {
-  value = ["${aws_subnet.app.*.id}"]
-}
